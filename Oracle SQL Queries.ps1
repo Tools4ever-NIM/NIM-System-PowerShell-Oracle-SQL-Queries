@@ -25,7 +25,7 @@ function Idm-SystemInfo {
         [string] $ConnectionParams
     )
 
-    Log info "-Connection=$Connection -TestConnection=$TestConnection -Configuration=$Configuration -ConnectionParams='$ConnectionParams'"
+    Log verbose "-Connection=$Connection -TestConnection=$TestConnection -Configuration=$Configuration -ConnectionParams='$ConnectionParams'"
     
     if ($Connection) {
         @(
@@ -351,7 +351,7 @@ function Idm-SystemInfo {
         @()
     }
 
-    Log info "Done"
+    Log verbose "Done"
 }
 
 
@@ -418,7 +418,7 @@ function Idm-Dispatcher {
         [string] $FunctionParams
     )
 
-    Log info "-Class='$Class' -Operation='$Operation' -GetMeta=$GetMeta -SystemParams='$SystemParams' -FunctionParams='$FunctionParams'"
+    Log verbose "-Class='$Class' -Operation='$Operation' -GetMeta=$GetMeta -SystemParams='$SystemParams' -FunctionParams='$FunctionParams'"
     $connection_params = ConvertFrom-Json2 $SystemParams
 
     if ($Class -eq '') {
@@ -510,7 +510,7 @@ function Idm-Dispatcher {
 
     }
 
-    Log info "Done"
+    Log verbose "Done"
 }
 
 
@@ -616,7 +616,7 @@ function Open-OracleSqlConnection {
     $connection_string = $cs_builder.ConnectionString
 
     if ($Global:OracleSqlConnection -and $connection_string -ne $Global:OracleSqlConnectionString) {
-        Log info "OracleSqlConnection connection parameters changed"
+        Log verbose "OracleSqlConnection connection parameters changed"
         Close-OracleSqlConnection
     }
 
@@ -629,7 +629,7 @@ function Open-OracleSqlConnection {
         #Log debug "Reusing OracleSqlConnection"
     }
     else {
-        Log info "Opening OracleSqlConnection '$connection_string'"
+        Log verbose "Opening OracleSqlConnection '$connection_string'"
 
         try {
             $connection = New-Object Oracle.ManagedDataAccess.Client.OracleConnection($connection_string)
@@ -646,14 +646,14 @@ function Open-OracleSqlConnection {
             Write-Error $_
         }
 
-        Log info "Done"
+        Log verbose "Done"
     }
 }
 
 
 function Close-OracleSqlConnection {
     if ($Global:OracleSqlConnection) {
-        Log info "Closing OracleSqlConnection"
+        Log verbose "Closing OracleSqlConnection"
 
         try {
             $Global:OracleSqlConnection.Close()
@@ -663,6 +663,6 @@ function Close-OracleSqlConnection {
             # Purposely ignoring errors
         }
 
-        Log info "Done"
+        Log verbose "Done"
     }
 }
